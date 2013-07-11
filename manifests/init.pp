@@ -49,8 +49,9 @@ class passenger (
   $passenger_package      = $passenger::params::passenger_package,
 ) inherits passenger::params {
 
+# Here's the horrible hack Preston did
   class { 'apache':
-    all => false
+    default_mods = false
   }
   require apache::dev
   include apache::mod::alias
