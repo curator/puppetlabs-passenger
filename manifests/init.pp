@@ -51,7 +51,7 @@ class passenger (
 
 # Here's the horrible hack Preston did
   class { 'apache':
-    default_mods = false
+    default_mods => false
   }
   require apache::dev
   include apache::mod::alias
