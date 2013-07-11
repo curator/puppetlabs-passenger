@@ -46,11 +46,29 @@ class passenger (
   $gem_binary_path        = $passenger::params::gem_binary_path,
   $mod_passenger_location = $passenger::params::mod_passenger_location,
   $passenger_provider     = $passenger::params::passenger_provider,
-  $passenger_package      = $passenger::params::passenger_package
+  $passenger_package      = $passenger::params::passenger_package,
 ) inherits passenger::params {
 
-  include apache
+  class { 'apache':
+    all => false
+  }
   require apache::dev
+  include apache::mod::alias
+  include apache::mod::autoindex
+  include apache::mod::dav
+  include apache::mod::dav_fs
+  include apache::mod::deflate
+  include apache::mod::dir
+  include apache::mod::mime
+  include apache::mod::negotiation
+  include apache::mod::setenvif
+  include apache::mod::status
+  apache::mod { 'auth_basic': }
+  apache::mod { 'authn_file': }
+  apache::mod { 'authz_default': }
+  apache::mod { 'authz_groupfile': }
+  apache::mod { 'authz_user': }
+  apache::mod { 'env': }
 
   case $::osfamily {
     'debian': {
